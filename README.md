@@ -1,66 +1,51 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+##TikTok API App - Campaign creation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+###Installation
+- clone repository `git clone git@github.com:vovacomua/tiktok-api.git`
+- go to its directory `cd tiktok-api`
+- run container `./vendor/bin/sail up -d`
+- install dependencies `./vendor/bin/sail composer install`
+- in .env file set secret variables 
+  `AWS_ACCESS_KEY_ID , AWS_SECRET_ACCESS_KEY , TIKTOK_TOKEN , 
+  TIKTOK_ADVERTISER`
+- Download updated package from here:
+https://tiktok-bucket-1504.s3.eu-north-1.amazonaws.com/tiktok-marketing-api.zip
+- Go to vendor/promopult and swap tiktok-marketing-api
+with what you've downloaded
+- Go to `http://localhost/image-upload` and upload video
 
-## About Laravel
+Let me start from the package issue.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+As using pure Guzzle to communicate with API is no good and reinventing wheel and creating you own wrapper 
+is considered to be bad practice, I acted as I would 
+while creating real world project and checked what's available. 
+I found great package for TikTok Marketing API, and while it's not ready for production 
+and lacks most of endpoints I'd definitely choose it as starting point for my project's API wrapper.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+So I edited this package. If I had more time I could modify it so that it didn't need installation.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Another issue missed due to the lack of time is 
+to create service to implement all logic, and move every API request to separate method.
+Of cause having business logic in controller is bad practice as well as having long methods.
+Unfortunatey I also have not completed Vue based form.
+Also, more validation rules should be added, which also needs time to examine docs for every field of campaign.
 
-## Learning Laravel
+I spent most time setting up AWS and TikTok accs and digging documentation to make API work.
+Another time consuming part was to edit package's source code.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+As for the architecture. 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+There was a requirement to output API response after form submitting. Otherwise I'd make in work async,
+by moving video file uploading and API calls to queue. I'd also create table to save campaign locally
+and address it to check the status of campaign creation on Tiktok side. That's what we did for Amazon Ads API based project.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Btw, for more than a year I'd been involved in creation of innovative project based on Amazon Ads API. 
+We created custom package - wrapper for Amazon Ads API endpints, as nothing similar was available and got lots of experience implementing that API, making asynchronous calls to Amazon API, syncing local and remote databases etc.
+I got familiar familiar with concepts such as campaign creation, ad group creation, targeting options, and reporting. I've got understanding how to structure  code and how to work with API calls, since both APIs have similar design.
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
